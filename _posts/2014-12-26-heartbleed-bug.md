@@ -5,6 +5,8 @@ date:   2014-12-26 02:10:23
 categories: security c bug
 ---
 
+![Heartbleed]({{ site.url }}/assets/heartbleed.jpg)
+
 I'm sure you all heard about the "Heartbleed" bug affecting OpenSSL recently,
 and many people around me ask me about this bug, so I decided to make an article
  so that everyone can understand how it works. It is actually quite simple to
