@@ -40,7 +40,7 @@ union	useless_union
 {% endhighlight %}
 
 Here, `int_data` and `char_data` share the same location in memory, and thus
-the same address. This way, is the int is 4 bytes long (which is typically
+the same address. This way, if the int is 4 bytes long (which is typically
 the case on all modern computers), you can access the n-th byte of the int
 with `char_data[n]`.
 
@@ -62,7 +62,7 @@ uint32_t	swap_endianess(uint32_t color)
   u_col.int_data = color;
 
   /*
-  ** We the leftmost and the rightmost bytes (respectively char_data[0] and
+  ** We swap the leftmost and the rightmost bytes (respectively char_data[0] and
   ** char_data[3], because the array share the same location than the int.
   */
   tmp = u_col.char_data[0];
@@ -79,16 +79,17 @@ uint32_t	swap_endianess(uint32_t color)
 }
 {% endhighlight %}
 
-Although we do not clearly identify what the code is supposed to fo,
+Although we do not clearly identify what the code is supposed to do,
 this method has the advantage of performing less operations (5 assignements only)
-than the first one (6 bitshifts, 4 ANDs and 3 ORs).
+than the first one (6 bitshifts, 4 ANDs and 3 ORs). Thus, we can think that this
+code will be faster.
 
-After having performed some benchmarks on my i7 with no compiler optimization, swapping
-endianess of 2,000,000,000 random integers takes ~1.04 seconds with the first method and
-~1.72 seconds with the second one
+After having performed some benchmarks on my i7 with no compiler optimization,
+swapping endianess of 2,000,000,000 random integers takes ~1.04 seconds with the
+first method and ~1.72 seconds with the second one
 
 While you can see the first way is a little bit fastest, the best is yet to come:
-compiling with optimization (`-O2` with gcc), makes the code runs super-fast.
+compiling with optimizations (`-O2` with gcc), makes the code runs super-fast.
 
 If we take a look at the compiled code of the first method we will see
 
@@ -110,7 +111,7 @@ to you and leave the optimizations to the compiler, because nowadays, compilers
 will perform a much better job in optimizing our code than ourselves.
 Note that by "optimizations" I do not mean algorithms. Algorithms is what developers
 should focus on, because there is the real gain of performance. You can use
-as many tiny optimizations such as using bifhits instead of multiplications[^1], if you
+as many tiny optimizations such as using bitfhits instead of multiplications[^1], if you
 use [bogosort][bogosort] instead of merge sort, you'll certainly end up with a slower code ;).
 
 ### Notes
