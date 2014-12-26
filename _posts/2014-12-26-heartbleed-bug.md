@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "The hearbleed bug"
+title:  "The heartbleed bug"
 date:   2014-12-26 02:10:23
 categories: security c bug
 ---
