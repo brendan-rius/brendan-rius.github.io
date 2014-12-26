@@ -7,7 +7,7 @@ categories: security c bug
 
 ![Heartbleed]({{ site.url }}/assets/heartbleed.jpg)
 
-I'm sure you all heard about the "Heartbleed" bug affecting OpenSSL recently,
+I am sure you haveall heard about the "Heartbleed" bug affecting OpenSSL recently,
 and many people around me ask me about this bug, so I decided to make an article
  so that everyone can understand how it works. It is actually quite simple to
 understand, so even if you don't read the technical details you should be able
@@ -18,9 +18,10 @@ to understand.
 First, OpenSSL is an open-source software which aims to implement the TLS
 protocol (formerly called the SSL protocol). The TLS protocol was created to
 provide an efficient way to establish a secure connection between two points so
-that no one can normally know those two point are "talking" about together.
-If you go to your bank website, your URL should be something like "https://"
-(if not, consider changing bank :D) that means you are communicating safely with your bank.
+that no one can normally know what those two point are "talking" about together.
+If you go to your bank website, the URL should be something like "https://"
+(if not, consider changing bank :D) that means you are communicating safely with
+your bank over the TLS protocol.
 
 The problem is that every time you make a request to the server (when you go to
 another page for example) you have to re-establish a secure connection, and it
@@ -31,9 +32,16 @@ This "keep-alive" system has been called "Heartbeat".
 
 Let's see how heartbeat works:
 
- 1. The client sends a message (a packet) to the server. This packet stands for "I'm still alive, do not close the connection". This message contains two important info: a randomly generated string and its size.
- 2. The server receives this packet and stores it in memory for a few time (a few ms) so he can finish what he was doing. Once finished, he look in his memory to find the sent message, and read it to send it back to the client. He knows when he finished reading, because the client sent him the size of the message.
- 3. The client receives the message he sent to the server a few ms ago, everything is working fine, the connection is kept alive.
+ 1. The client sends a message (a packet) to the server. This packet stands for
+"I'm still alive, do not close the connection". This message contains two
+important info: a randomly generated string and its size.
+ 2. The server receives this packet and stores it in memory for a few time
+(a few ms) so he can finish what he was doing. Once finished, he looks in his
+memory to find the sent message, and reads it to send it back to the client.
+He knows when he finished reading, because the client sent him the size of the
+message.
+ 3. The client receives the message he sent to the server a few ms ago,
+everything is working fine, the connection is kept alive.
 
 Do you see the flaw here? There's no server-side control to check if the sent
 message is actually the same size as the sent size. So if the user specify a
@@ -60,15 +68,15 @@ n2s(p, payload);
 pl = p;
 {% endhighlight %}
 
-Here, `p` contains points to the received data, `hbtype` represents the type of the message
-(either request or response), `payload` is the size of the payload (the message contained
-in the received packet).
+Here, `p` points to the received data, `hbtype` represents the type of the message
+(either request or response), `payload` is the size of the payload
+(the message contained in the received packet).
 
-The line 5 reads the first byte of the packet (the type of the message), make `p` point
-on the next byte, and set hbtype to the type of message.
+The line 5 reads the first byte of the packet (the type of the message), makes `p` point
+on the next byte, and sets `hbtype` to the type of message.
 
-The line 6 reads the next *two* bytes[^1] (which represents the length of the payload), copy
-them to the `payload` variable and make the pointer points two bytes further.
+The line 6 reads the next two bytes[^1] (which represent the length of the payload), copies
+them to the `payload` variable and makes the pointer point two bytes further.
 `pl` is a pointer to the payload.
 
 Here is how the server replies:
@@ -87,40 +95,42 @@ s2n(payload, bp);
 memcpy(bp, pl, payload);
 {% endhighlight %}
 
-Here, the length of the replied message if computed like :
+Here, the length of the response is computed like :
 
  * 1 byte to store the type of the message (request or response)
  * 2 bytes to store the length of the payload
  * `payload` bytes to store the payload
  * `padding` bytes so the message has a fixed length
 
-Line 7 allocate the memory needed for the response, line 8 makes `bp` to point to
-this memory.
+Line 7 allocates the memory needed for the response, line 8 makes `bp` point to
+this memory area.
 
-Line 9 writes the type to the response, and make `bp` point to the next byte.
+Line 9 writes the type to the response, and makes `bp` point to the next byte.
 
-Line 10 write the size of the payload (two bytes) to the response, and hisft the
-pointer by two bytes, so it points on the message
+Line 10 writes the size of the payload (two bytes) to the response, and shift
+the pointer by two bytes, so it now points on the message.
 
 Line 11 copies the sent message to the response on `payload` bytes. Here is the flaw.
-The size was never checked, so we rely on the size sent by the client to read
-from the server's memory.
+The size was never checked on the server-side, so we rely on the size sent by
+the client to read from the server's memory.
 
-Therefore, it is really easy to get interesting data from the server, you just have to
-specify the maximum length for the message (0xFFFF), and to write an empty or a
-really short message.
+Therefore, it is really easy to get interesting data from the server, you just
+have to specify the maximum length for the message (0xFFFF), and to write an
+empty or a really short message, and the response will contain the next 64kB
+after the message in the server's memory (possibly credentials, files, ...)
 
 ### Conclusion
 
-Here are somes lesson we can learn from the heartbleed bug:
+Here are somes lessons we can learn from the heartbleed bug:
 
  1. be really careful when treating sensible data with low-level languages where
 you have to manually handle the memory.
- 2. use proper name for variables, do not hesitate to write lengthy comments, this way
-other developers can quickly understand what the code is doing, and reveal issues before they
-are being exploited
- 3. do not skip the testing phase. **This bug could have been easily discovered by sending
-random values to the server and by comparing to the response to the request.**
+ 2. use proper name for variables, do not hesitate to write lengthy comments,
+this way other developers can quickly understand what the code is doing, and
+reveal issues before they are being exploited.
+ 3. do not skip the testing phase. I am sorry to say that, but This bug could
+have been easily discovered by sending random values to the server and by
+comparing to the response to the request.
 
 
 #### Notes
