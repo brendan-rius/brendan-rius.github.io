@@ -26,7 +26,7 @@ uint32_t swap_endianess(uint32_t value)
 }
 {% endhighlight %}
 
-the exercise added a constrainst: I had to use a union. For those who are
+the exercise added a constrainst: I had to use a union[^3]. For those who are
 not familiar with the concept of union, a union is a data structure that
 represents a location in the memory that can be filled by multiple types
 of data (thus taking the size of the biggest data type). For example:
@@ -101,7 +101,7 @@ bswap	%eax
 the `bswap` instruction here is a processor builtin operation to reverse the byte
 order of a 32 bit register (which contains our value): *the compiler understood
 what the code was doing, and did it in a much better way*: swapping 2,000,000,000
-integers now take less than one clock tick (less thans 0.000001 second).
+integers now take less than one clock tick.
 
 Meanwhile, the second method is so exotic that the compiler cannot understand it,
 and this cannot optimize it this way[^2].
@@ -118,4 +118,7 @@ use [bogosort][bogosort] instead of merge sort, you'll certainly end up with a s
 
 [^1]: arithmetic operators tend to be heavily optimized by compilers (for obvious reasons), so this kind of optimizations is not useful anymore. For example gcc will automatically transform a multiplication in addition of bitshifts if it can, and that without `-O` (with `-O` it would have tried to pre-compute the result at compilation time).
 [^2]: In fact, even if the compiler does not compile the code down to the `bswap` instruction, it can optimize it a way that it takes nearly the same time
+[^3]: accessing bytes this way is called [type punning][type-punning]
+
+[type-punning]: http://en.wikipedia.org/wiki/Type_punning
 [bogosort]: http://en.wikipedia.org/wiki/Bogosort
