@@ -1,0 +1,14 @@
+# Site settings
+title: Brendan Rius' blog
+email: brendan.rius@gmail.com
+description: >
+  I am a french developer with a strong entrepreneurial mind. I am currently
+  studying software engineering at Epitech, and I work as a freelance in software
+  development and web security.
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://brendan-rius.com" # the base hostname & protocol for your site
+twitter_username: thuzhen
+github_username:  thuzhen
+
+# Build settings
+markdown: kramdown
