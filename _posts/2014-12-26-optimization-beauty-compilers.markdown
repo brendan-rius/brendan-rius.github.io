@@ -116,7 +116,7 @@ use [bogosort][bogosort] instead of merge sort, you'll certainly end up with a s
 
 ### Notes
 
-[^1]: arithmetic operators tend to be heavily optimized by compilers (for obvious reasons), so this kind of optimizations is not useful anymore. For example gcc will automatically transform a multiplication in addition of bitshifts if it can, and that without `-O` (with `-O` it would have tried to pre-compute the result at compilation time).
+[^1]: arithmetic operators tend to be heavily optimized by compilers (for obvious reasons), so this kind of optimizations is not useful anymore. For example gcc will automatically transform a multiplication in addition or bitshifts if it can, and that without `-O` (with `-O` it would have tried to pre-compute the result at compilation time).
 [^2]: In fact, even if the compiler does not compile the code down to the `bswap` instruction, it can optimize it a way that it takes nearly the same time
 [^3]: accessing bytes this way is called [type punning][type-punning]
 
