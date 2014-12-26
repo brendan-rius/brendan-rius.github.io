@@ -6,9 +6,9 @@ description: >
   studying software engineering at Epitech, and I work as a freelance in software
   development and web security.
 baseurl: "" # the subpath of your site, e.g. /blog/
-url: "http://brendan-rius.com" # the base hostname & protocol for your site
+url: "" # the base hostname & protocol for your site
 twitter_username: thuzhen
-github_username:  thuzhen
+github_username:  brendan-rius
 
 # Build settings
 markdown: kramdown

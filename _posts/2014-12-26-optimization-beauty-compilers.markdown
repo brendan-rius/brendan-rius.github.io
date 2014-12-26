@@ -2,7 +2,7 @@
 layout: post
 title:  "Optimization, the beauty of compilers"
 date:   2014-12-26 02:10:23
-categories: c compilers
+categories: c compilers optimization
 ---
 
 A few months ago I was asked for an exercise to create a C code to swap the
