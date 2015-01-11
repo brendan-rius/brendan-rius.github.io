@@ -27,7 +27,7 @@ else
 {% endhighlight %}
 
 Here we can see that knowing the address of a member (here `&(s.member1)`),
-the name of the structure (here `struct useless_structure`), and the name of
+the type of the structure (here `struct useless_structure`), and the name of
 the member in the structure (here `member1`), we can get the address of the
 structure (which is `&s`).
 
@@ -48,15 +48,17 @@ the `offsetof` macro that it uses.
 `offsetof` returns the position
 in bytes of a member of a struct relative to the address of the struct.
 In our example, `offsetof(struct useless_structure, member1)` would be
-0, and `offsetof(struct useless_structure, member3)` would be `255 +
+0 (since it is the first element of the structure),
+and `offsetof(struct useless_structure, member3)` would be `255 +
 sizeof(int)` because `member3` is just after `member2` (255 bytes)
 in memory which is just after `member1` in memory (`sizeof(int)` bytes).
 
 The `offsetof` uses a really clever trick. It casts `0` to a pointer to
-the structure (so the address of this structure is 0) and the get the
-address of the desired member of its structure. This code is safe
-since we do not dereference the null pointer, in the sense we do
-not access its data directly, we only get its address.
+the structure (so the address of this structure is 0) and then get the
+address of the desired member of its structure. While it could appear
+to be dangerous and even invalid since we dereference a null points,
+this code is safe since in the sense we do not access its data directly,
+we only get its address.
 
 {% highlight c linenos %}
 #define offsetof(st, m) ((size_t) (&((st *) 0)->m))
@@ -64,7 +66,12 @@ not access its data directly, we only get its address.
 
 Some implementations of `offsetof` substracts the value of the null
 pointer to the result in case the null pointer does not compare to
-0 (which is really rare).
+0, which is really rare but appear(ed) to be true on certain architectures
+(see [this page][c-faq]).
+
+{% highlight c linenos %}
+#define offsetof(st, m) ((size_t) (&((st *) 0)->m - (char *) 0))
+{% endhighlight %}
 
 ### How `container_of` uses `offsetof`
 
@@ -97,7 +104,7 @@ struct  list
 {% endhighlight %}
 
 where each node of the list holds a pointer to the data, Linux makes the
-data hold a pointer to the node:
+data hold a pointer to the node
 
 {% highlight c linenos %}
 struct list
@@ -121,3 +128,5 @@ One of the advantage of this method is that we cannot have two different linked 
 containing the same structure (which can be a problem when deleting an element from the list
 frees it, since it will create a ghost pointer in the other list), without being aware
 of it, because it can be seen clearly in the structure definition.
+
+[c-faq]: http://c-faq.com/null/machexamp.html
