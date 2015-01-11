@@ -5,8 +5,8 @@ date:   2015-01-09 00:01:23
 categories: kernel linked lists linux
 ---
 
-Recently I came accross the container_of macro defined in the linux kernel.
-This macro is used to get the address of the container (the structure) from
+Recently I came accross the `container_of` macro defined in the linux kernel.
+This macro is used to get the address of the container (a structure) from
 the address of one of its members. Let's see how it works, and how it can
 be useful to implement linked lists a clever (but weird) way.
 
@@ -40,9 +40,12 @@ Here is how `container_of` is defined:
                 (type *)( (char *) __mptr - offsetof(type, member) );})
 {% endhighlight %}
 
+Before we can understand this macro, we have to know a little bit more about
+the `offsetof` macro that it uses.
+
 ### The `offsetof` macro
 
-This macro uses the `offsetof` macro. `offsetof` returns the position
+`offsetof` returns the position
 in bytes of a member of a struct relative to the address of the struct.
 In our example, `offsetof(struct useless_structure, member1)` would be
 0, and `offsetof(struct useless_structure, member3)` would be `255 +
@@ -72,7 +75,7 @@ in a structure are contiguous, it works well.
 For type-safety, `container_of` creates a pointer to the member so that
 the compiler can generate a warning the the member is not part of the structure.
 This trick is optionnal, but is a good practice. The macro then cast this pointer
-to the member to a char pointer so that the substraction will work as expected
+to a char pointer so that the subtraction will work as expected
 (pointer arithmetic would have massed up with types that occupy more than one
 byte in memory).
 
@@ -112,4 +115,9 @@ struct  contact
 {% endhighlight %}
 
 we can then access the data of a node using `container_of(ptr_list, contact, node)`
-which points to our `contact` "instance". 
+which points to our `contact` "instance".
+
+One of the advantage of this method is that we cannot have two different linked lists
+containing the same structure (which can be a problem when deleting an element from the list
+frees it, since it will create a ghost pointer in the other list), without being aware
+of it, because it can be seen clearly in the structure definition.
