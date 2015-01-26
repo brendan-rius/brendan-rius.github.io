@@ -115,8 +115,8 @@ struct list
 
 struct  contact
 {
-  char  *name;
-  char  *phone;
+  char        *name;
+  char        *phone;
   struct list *node; /* pointer to the node */
 }
 {% endhighlight %}
