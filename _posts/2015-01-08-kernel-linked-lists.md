@@ -56,7 +56,7 @@ in memory which is just after `member1` in memory (`sizeof(int)` bytes).
 The `offsetof` uses a really clever trick. It casts `0` to a pointer to
 the structure (so the address of this structure is 0) and then get the
 address of the desired member of its structure. While it could appear
-to be dangerous and even invalid since we dereference a null points,
+to be dangerous and even invalid since we dereference a null pointer,
 this code is safe since in the sense we do not access its data directly,
 we only get its address.
 
@@ -66,7 +66,7 @@ we only get its address.
 
 Some implementations of `offsetof` substracts the value of the null
 pointer to the result in case the null pointer does not compare to
-0, which is really rare but appear(ed) to be true on certain architectures
+0, which is really rare but appear(ed) to be true on some architectures
 (see [this page][c-faq]).
 
 {% highlight c linenos %}
