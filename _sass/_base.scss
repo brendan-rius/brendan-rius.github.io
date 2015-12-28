@@ -202,3 +202,33 @@ pre {
         }
     }
 }
+
+table {
+  $border-separator: 1px solid $grey-color-light;
+  border: $border-separator;
+  border-radius: 5px;
+  border-spacing: 0;
+
+  thead {
+    border-bottom: $border-separator;
+    th {
+      padding: 0.5em 1em;
+      border-bottom: $border-separator;
+    }
+  }
+
+  tr {
+    &:nth-child(2n) {
+      background-color: #eef;
+    }
+
+    td {
+      padding: 0.5em 1em;
+      &:first-child {
+        font-weight: bold;
+        border-right: $border-separator;
+      }
+    }
+  }
+
+}
