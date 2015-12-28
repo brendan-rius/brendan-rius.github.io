@@ -2,12 +2,11 @@
 title: Brendan Rius' blog
 email: brendan.rius@gmail.com
 description: >
-  I am a french developer with a strong entrepreneurial mind. I am currently
+  I am a 19 yo french developer with a strong entrepreneurial mind. I am currently
   studying software engineering at Epitech, and I work as a freelance in software
   development and web security.
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "" # the base hostname & protocol for your site
-twitter_username: thuzhen
 github_username:  brendan-rius
 
 # Build settings
