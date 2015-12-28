@@ -3,7 +3,15 @@ layout: page
 title: About me
 ---
 
-My name is Brendan Rius and I am a 18 years old french developer and student.
+![Brendan Rius]({{ site.url }}/assets/avatar.jpg)
 
-I currently live in Rennes, France where I study software engineering at Epitech, the European
-institute of technology.
+Hacker with a strong entrepreneurial mind.
+
+2x founder & ex-freelance.
+
+College dropout.
+
+Working with an awesome team to make personalized medicine a reality
+[@Omixy][omixy]
+
+[omixy]: https://www.omixy.com
