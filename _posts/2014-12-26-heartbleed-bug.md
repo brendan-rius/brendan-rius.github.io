@@ -56,7 +56,7 @@ Here's a little comic from xkcd.
 
 ### On the technical side
 
-Here's what the heartbleed bug looks in the code[^2]
+Here's what the Heartbleed bug looks in the code[^2]
 
 {% highlight c linenos %}
 unsigned char   *p = &s->s3->rrec.data[0], *pl;
@@ -121,7 +121,7 @@ after the message in the server's memory (possibly credentials, files, ...)
 
 ### Conclusion
 
-Here are somes lessons we can learn from the heartbleed bug:
+Here are some lessons we can learn from the Heartbleed bug:
 
  1. be really careful when treating sensible data with low-level languages where
 you have to manually handle the memory.
@@ -135,7 +135,7 @@ comparing to the response to the request.
 
 #### Notes
 
-[^1]: here you can see that, fortunately, the size is encoded on two bytes, so the size can be up to <span>$$ 2^{16} = 65536$$</span> bytes, ~64kB). Thus the leak cannot be bigger than 64kB. That is why you should carefully choose your data types defore writing code. Imagine how worse the bug would have been is the size was encoded on 4 bytes (~4MB)
+[^1]: here you can see that, fortunately, the size is encoded on two bytes, so the size can be up to <span>$$ 2^{16} = 65536$$</span> bytes, ~64kB). Thus the leak cannot be bigger than 64kB. That is why you should carefully choose your data types before writing code. Imagine how worse the bug would have been is the size was encoded on 4 bytes (~4MB)
 [^2]: the code can be found on [Github][github]
 
 [github]: https://github.com/openssl/openssl/blob/731f431497f463f3a2a97236fe0187b11c44aead/ssl/d1_both.c

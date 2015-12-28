@@ -26,7 +26,7 @@ uint32_t swap_endianess(uint32_t value)
 }
 {% endhighlight %}
 
-the exercise added a constrainst: I had to use a union[^3]. For those who are
+the exercise added a constraint: I had to use a union[^3]. For those who are
 not familiar with the concept of union, a union is a data structure that
 represents a location in the memory that can be filled by multiple types
 of data (thus taking the size of the biggest data type). For example:
@@ -80,12 +80,12 @@ uint32_t	swap_endianess(uint32_t color)
 {% endhighlight %}
 
 Although we do not clearly identify what the code is supposed to do,
-this method has the advantage of performing less operations (5 assignements only)
+this method has the advantage of performing less operations (5 assignments only)
 than the first one (6 bitshifts, 4 ANDs and 3 ORs). Thus, we can think that this
 code will be faster.
 
 After having performed some benchmarks on my i7 with no compiler optimization,
-swapping endianess of 2,000,000,000 random integers takes ~1.04 seconds with the
+swapping endianness of 2,000,000,000 random integers takes ~1.04 seconds with the
 first method and ~1.72 seconds with the second one
 
 While you can see the first way is a little bit fastest, the best is yet to come:

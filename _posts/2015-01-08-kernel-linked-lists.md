@@ -5,7 +5,7 @@ date:   2015-01-09 00:01:23
 categories: kernel linked lists linux
 ---
 
-Recently I came accross the `container_of` macro defined in the linux kernel.
+Recently I came across the `container_of` macro defined in the linux kernel.
 This macro is used to get the address of the container (a structure) from
 the address of one of its members. Let's see how it works, and how it can
 be useful to implement linked lists a clever (but weird) way.
@@ -75,13 +75,13 @@ pointer to the result in case the null pointer does not compare to
 
 ### How `container_of` uses `offsetof`
 
-The `container_of` macro just takes the address of a member and substract
+The `container_of` macro just takes the address of a member and subtract
 from it the address of this member relatively to the structure. Since elements
 in a structure are contiguous, it works well.
 
 For type-safety, `container_of` creates a pointer to the member so that
 the compiler can generate a warning the the member is not part of the structure.
-This trick is optionnal, but is a good practice. The macro then cast this pointer
+This trick is optional, but is a good practice. The macro then cast this pointer
 to a char pointer so that the subtraction will work as expected
 (pointer arithmetic would have massed up with types that occupy more than one
 byte in memory).
