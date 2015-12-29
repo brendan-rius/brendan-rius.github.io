@@ -58,7 +58,7 @@ Here's a little comic from xkcd.
 
 Here's what the Heartbleed bug looks in the code[^2]
 
-{% highlight c linenos %}
+```c
 unsigned char   *p = &s->s3->rrec.data[0], *pl;
 unsigned short  hbtype;
 unsigned int    payload;
@@ -66,7 +66,7 @@ unsigned int    payload;
 hbtype = *p++;
 n2s(p, payload);
 pl = p;
-{% endhighlight %}
+```
 
 Here, `p` points to the received data, `hbtype` represents the type of the message
 (either request or response), `payload` is the size of the payload
@@ -81,7 +81,7 @@ them to the `payload` variable and makes the pointer point two bytes further.
 
 Here is how the server replies:
 
-{% highlight c linenos %}
+```c
 unsigned char   *buffer, *bp;
 unsigned int    write_length = 1 +
                                2 +
@@ -93,7 +93,7 @@ bp = buffer;
 *bp++ = TLS1_HB_RESPONSE;
 s2n(payload, bp);
 memcpy(bp, pl, payload);
-{% endhighlight %}
+```
 
 Here, the length of the response is computed like :
 

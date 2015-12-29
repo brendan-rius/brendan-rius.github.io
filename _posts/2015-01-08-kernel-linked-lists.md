@@ -12,7 +12,7 @@ be useful to implement linked lists a clever (but weird) way.
 
 For example, take a look at this code:
 
-{% highlight c linenos %}
+```c
 struct useless_structure
 {
   int  member1;
@@ -24,7 +24,7 @@ if (&s == container_of(&(s.member1), struct useless_structure, member1))
   printf("SUCCESS\n");
 else
   printf("FAILURE\n");
-{% endhighlight %}
+```
 
 Here we can see that knowing the address of a member (here `&(s.member1)`),
 the type of the structure (here `struct useless_structure`), and the name of
@@ -34,12 +34,11 @@ structure (which is `&s`).
 ## How `container_of` works
 Here is how `container_of` is defined:
 
-{% highlight c linenos %}
+```c
 #define container_of(ptr, type, member) ({ \
                 const typeof( ((type *) 0)->member ) *__mptr = (ptr); \
                 (type *)( (char *) __mptr - offsetof(type, member) );})
-{% endhighlight %}
-
+```
 Before we can understand this macro, we have to know a little bit more about
 the `offsetof` macro that it uses.
 
@@ -60,19 +59,18 @@ to be dangerous and even invalid since we dereference a null pointer,
 this code is safe since in the sense we do not access its data directly,
 we only get its address.
 
-{% highlight c linenos %}
+```c
 #define offsetof(st, m) ((size_t) (&((st *) 0)->m))
-{% endhighlight %}
+```
 
-Some implementations of `offsetof` substracts the value of the null
+Some implementations of `offsetof` subtracts the value of the null
 pointer to the result in case the null pointer does not compare to
 0, which is really rare but appear(ed) to be true on some architectures
 (see [this page][c-faq]).
 
-{% highlight c linenos %}
+```c
 #define offsetof(st, m) ((size_t) (&((st *) 0)->m - (char *) 0))
-{% endhighlight %}
-
+```
 ### How `container_of` uses `offsetof`
 
 The `container_of` macro just takes the address of a member and subtract
@@ -94,19 +92,19 @@ too: when is `container_of` useful, if it is at all?
 The Linux kernel primarily uses it to implement linked lists, but instead of
 having the classical
 
-{% highlight c linenos %}
+```c
 struct  list
 {
   void        *data; /* pointer to data */
   struct list *next; /* pointer to next node */
   struct list *prev; /* pointer to previous node */
 };
-{% endhighlight %}
+```
 
 where each node of the list holds a pointer to the data, Linux makes the
 data hold a pointer to the node
 
-{% highlight c linenos %}
+```c
 struct list
 {
   struct list *next; /* pointer to next node */
@@ -119,8 +117,7 @@ struct  contact
   char        *phone;
   struct list *node; /* pointer to the node */
 }
-{% endhighlight %}
-
+```
 we can then access the data of a node using `container_of(ptr_list, contact, node)`
 which points to our `contact` "instance".
 

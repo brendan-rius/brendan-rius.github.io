@@ -11,7 +11,7 @@ an ARGB color.
 Nothing that much complicated. While the natural way of doing this would be
 to write something like:
 
-{% highlight c %}
+```c
 uint32_t swap_endianess(uint32_t value)
 {
   uint32_t r, g, b, a;
@@ -24,20 +24,20 @@ uint32_t swap_endianess(uint32_t value)
 
   return (a << 24) | (b << 16) | (g << 8) | r;
 }
-{% endhighlight %}
+```
 
 the exercise added a constraint: I had to use a union[^3]. For those who are
 not familiar with the concept of union, a union is a data structure that
 represents a location in the memory that can be filled by multiple types
 of data (thus taking the size of the biggest data type). For example:
 
-{% highlight c %}
+```c
 union	useless_union
 {
   int	int_data;
   char	char_data[4];
 }
-{% endhighlight %}
+```
 
 Here, `int_data` and `char_data` share the same location in memory, and thus
 the same address. This way, if the int is 4 bytes long (which is typically
@@ -46,7 +46,7 @@ with `char_data[n]`.
 
 The solution to this exercise was something ugly like:
 
-{% highlight c %}
+```c
 union	swapping_union
 {
   uint32_t	int_data;
@@ -77,7 +77,7 @@ uint32_t	swap_endianess(uint32_t color)
   /* We return the new "int" */
   return (u_col.int_data);
 }
-{% endhighlight %}
+```
 
 Although we do not clearly identify what the code is supposed to do,
 this method has the advantage of performing less operations (5 assignments only)
@@ -93,11 +93,10 @@ compiling with optimizations (`-O2` with gcc), makes the code runs super-fast.
 
 If we take a look at the compiled code of the first method we will see
 
-{% highlight asm %}
+```asm
 mov	%edi, %eax
 bswap	%eax
-{% endhighlight %}
-
+```
 the `bswap` instruction here is a processor builtin operation to reverse the byte
 order of a 32 bit register (which contains our value): *the compiler understood
 what the code was doing, and did it in a much better way*: swapping 2,000,000,000
