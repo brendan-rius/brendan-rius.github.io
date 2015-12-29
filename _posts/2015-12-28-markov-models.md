@@ -10,7 +10,7 @@ speaking of autocomplete features in phones. Here is a screenshot of me writing
 `How are` on my phone while it presents me some probable next words for this
 sentence including the right one `you`.
 
-![Autocomplete feature on my phone]({{ site.url }}/assets/markov-models/autocomplete.jpg)
+![Autocomplete feature on my phone]({{ site.url }}/assets/markov-models/autocomplete.png)
 
 Now, let me be clear: I am AI ignorant, I never took time to study/play with AI
 and machine learning concepts and I feel shameful for this. One of the main
@@ -81,7 +81,7 @@ word `the` to be next knowing that the current word is `of`" (this is what is
 used in autocomplete).
 
 It would be far easier for each line in the array to have the probability for
-the word in the line to be followed by another word. So instead of dividi§ng each
+the word in the line to be followed by another word. So instead of dividing each
 number of occurrences by the number of words, we can divide it by the sum of
 occurrences in the line (that is, the number of times the word appeared followed
 by a word). For example, the word `of` has been followed by `Mary` once and
