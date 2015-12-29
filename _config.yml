@@ -14,4 +14,4 @@ github_username:  brendan-rius
 markdown: redcarpet
 markdown_ext:  markdown,mkdown,mkdn,mkd,md
 redcarpet:
-  extensions: ["tables", fenced_code_blocks"]
+  extensions: ["tables", "fenced_code_blocks"]
